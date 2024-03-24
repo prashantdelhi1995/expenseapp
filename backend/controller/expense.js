@@ -60,7 +60,8 @@ module.exports.getExpense = async (req, res) => {
       page: page,
       limit: limit,
       totalCount: totalCount,
-      totalPages: Math.ceil(totalCount / limit)
+      totalPages: Math.ceil(totalCount / limit),
+      name:req.user.name
     });
   } catch (error) {
     console.error('Error fetching expenses:', error);

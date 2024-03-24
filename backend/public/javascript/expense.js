@@ -3,6 +3,8 @@ let token=localStorage.getItem("token")
 const form1 = document.getElementById("form");
 const tBody = document.getElementById("tbody");
 const pageDropValue = document.getElementById("pageDropValue");
+const userName= document.getElementById("name");
+const Name= document.createElement("p")
 
 
 
@@ -33,7 +35,7 @@ form1.addEventListener("submit", function (e) {
     };
     console.log(obj)
 
-    axios.post("http://localhost:3000/add-expense", obj, { headers:{'Authorization':token}})
+    axios.post("/add-expense", obj, { headers:{'Authorization':token}})
     .then(res => {
       
         // Clear form fields after successful submission
@@ -54,10 +56,13 @@ var page = 1;
 function loadExpenseList(page) {
   console.log("???????????????>>>>>>>>>>", token);
 
-  axios.get(`http://localhost:3000/get-expense/?page=${page}&limit=${localStorage.getItem("limit")}`, { headers: { 'Authorization': token } })
+  axios.get(`/get-expense/?page=${page}&limit=${localStorage.getItem("limit")}`, { headers: { 'Authorization': token } })
       .then(res => {
-          const { data, totalCount, totalPages } = res.data;
-          console.log(res.data);
+          const { data, totalCount, totalPages, name } = res.data;
+          
+          Name.innerHTML="";
+          Name.innerHTML=name
+          userName.appendChild(Name)
           tBody.innerHTML = '';
 
           data.forEach((element) => {
@@ -160,7 +165,7 @@ tBody.addEventListener("click", (e) => {
 
     axios
       .delete(
-        `http://localhost:3000/delete-expense/${e.target.parentElement.parentElement.id}`,{ headers:{'Authorization':token}}
+        `/delete-expense/${e.target.parentElement.parentElement.id}`,{ headers:{'Authorization':token}}
       )
       .then((res) => {})
       .catch((err) => {
@@ -177,7 +182,7 @@ tBody.addEventListener("click", (e) => {
 //leaderboard code
 
 async function handleLeadorboard(event){
-  const res=await axios.get("http://localhost:3000/leaderboardrd")
+  const res=await axios.get("/leaderboardrd")
   const ul=document.getElementById("leaderboard");
   ul.innerHTML="";
   console.log(res.data)
@@ -203,7 +208,7 @@ async function handleOnClick(event){
     console.log("click")
     //const token = localStorage.getItem("token");
   const res = await axios.get(
-    "http://localhost:3000/purchase/premiumMembership",
+    "/purchase/premiumMembership",
     { headers: { Authorization: token } }
   );
   console.log(res);
@@ -213,7 +218,7 @@ async function handleOnClick(event){
     // This handler function will handle the success payment
     handler: async function (response) {
       const res = await axios.post(
-        "http://localhost:3000/purchase/updateTransactionStatus",
+        "/purchase/updateTransactionStatus",
         {
           order_id: options.order_id,
           payment_id: response.razorpay_payment_id,
@@ -293,7 +298,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 async function download(){
   try{
-      const response= await axios.get('http://localhost:3000/user/download', { headers: {"Authorization" : token} })
+      const response= await axios.get('/user/download', { headers: {"Authorization" : token} })
   
       if(response.status === 201){
           //the bcakend is essentially sending a download link

@@ -3,7 +3,7 @@ async function handleonclick(event){
     event.preventDefault(); 
     try{
     const email = document.getElementsByName('email')[0].value;
-     let res= await axios.post("http://localhost:3000/password/forgotpassword",{email})
+     let res= await axios.post("/password/forgotpassword",{email})
      alert(res.data.message);
      window.location.href = "../html/login.html";
 
