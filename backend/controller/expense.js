@@ -10,48 +10,25 @@ const Uploads = require("../modal/fileuploadModel")
 require("dotenv").config()
 
 const AWS = require("aws-sdk");
-// module.exports.getExpense= async (req, res) => {
- 
-//   const page = req.query.page || 1; // Get the requested page number
-//   const limit = req.query.limit || 10; // Number of items per page
-//   const offset = (page - 1) * limit
-//   console.log("********",page,limit)
-//   const t= await sequelize.transaction();
-//     try {
-//       let result = await Expense.findAll({where:{SignUpId:req.user.id}, limit: limit, offset: offset, transaction:t});
-      
-//       res.json(result);
-  
-//       //await t.commit();
-//       //res.json(data);
-//     } catch (error) {
-//       console.error('Error fetching users:', error);
-//       //await t.rollback(); 
-      
-//       res.status(500).json({ error: 'Error fetching users.' });
-//     }
-//   }
+
 module.exports.getExpense = async (req, res) => {
   
   const page = parseInt(req.query.page) || 1; // Get the requested page number
   const limit =  parseInt(req.query.limit) || 10; // Number of items per page
   const offset = (page - 1) * limit;
-  console.log("********", page, limit);
-  console.log("Requested Page:", page);
-  console.log("Limit:", limit);
-  console.log("Offset:", offset);
+ 
 
   const t = await sequelize.transaction();
   try {
     const totalCount = await Expense.count({ where: { SignUpId: req.user.id }, transaction: t });
-    console.log("TOTALCOUNT:",totalCount)
+   
     const result = await Expense.findAll({
       where: { SignUpId: req.user.id },
       limit: limit,
       offset: offset,
       transaction: t
     });
-    console.log("alok alok",result)
+    
 
     await t.commit(); // Commit the transaction
 
@@ -76,9 +53,9 @@ module.exports.getExpense = async (req, res) => {
     try {
       console.log("value of id is >>>>>>>>>>>>>", req.user.id)
       const expense = await Expense.create({ Amount, Description, categories, date, SignUpId:req.user.id },{transaction:t});
-      console.log(">>>>>totalspend",req.user.totalspend)
+      
       let total_expense= Number(req.user.totalspend) + Number(Amount) ;
-      console.log("***************",total_expense);
+     
            await  req.user.update( { totalspend: total_expense},{transaction:t} );
            await t.commit();
       
@@ -97,7 +74,7 @@ module.exports.getExpense = async (req, res) => {
   module.exports.putExpense= async (req, res) => {
     const t= await sequelize.transaction();
     const id = req.params.id;
-    console.log("id is",id)
+    
     const { Amount, Description, categories } = req.body;
     try {
       const expense = await Expense.findByPk(id,{transaction:t} );
@@ -145,7 +122,7 @@ module.exports.getExpense = async (req, res) => {
       const user = req.user;
       const expenses = await Expense.findAll({where :{ SignUpId: req.user.id }});
   
-      console.log(expenses);
+      
       const stringifiedExpenses = JSON.stringify(expenses);
       const filename = `${user.id}Expense/${new Date()}.txt`;
   

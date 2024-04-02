@@ -33,7 +33,7 @@ app.use("/purchase",Premium)
 app.use(Leaderboard);
 app.use("/password",forgetPassword)
 app.use((req,res,next)=>{
-  console.log(req.url)
+
     res.sendFile(path.join(__dirname,`/public/${req.url}`))
 });
 

@@ -35,13 +35,15 @@
       </tbody>
     </table>
   </div>
+  
 
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.7/axios.min.js" integrity="sha512-NQfB/bDaB8kaSXF8E77JjhHG5PM6XVRxvHzkZiwl3ddWCEPBa23T76MuWSwAJdMGJnmQqM0VeY9kFszsrBEFrQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script>
     window.addEventListener("DOMContentLoaded", async () => {
       async function populateTable() {
         try {
-          const res = await axios.get("http://localhost:3000/leaderboard");
+          const res = await axios.get("/leaderboard");
+          console.log("*******",res.data)
           const tbody = document.querySelector("#leaderboardTable tbody");
           tbody.innerHTML = ""; // Clear existing rows
 
@@ -49,7 +51,7 @@
             const row = document.createElement("tr");
             row.innerHTML = `
               <td>${person.name}</td>
-              <td>${person.totalSpend}</td>
+              <td>${person.totalspend}</td>
             `;
             tbody.appendChild(row);
           });
@@ -62,6 +64,6 @@
       populateTable();
     });
   </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.4/axios.min.js" integrity="sha512-GSyJmkVYLjRzzY5BgpQyxlzEP+NyZdVBhxJpV+V7ZLrbv79B25dE1V9sU0DlIjyk+B70xZDWKlHsFFvt+/qF6w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.4/axios.min.js" integrity="sha512-GSyJmkVYLjRzzY5BgpQyxlzEP+NyZdVBhxJpV+V7ZLrbv79B25dE1V9sU0DlIjyk+B70xZDWKlHsFFvt+/qF6w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </body>
 </html>

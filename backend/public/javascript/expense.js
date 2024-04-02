@@ -5,6 +5,8 @@ const tBody = document.getElementById("tbody");
 const pageDropValue = document.getElementById("pageDropValue");
 const userName= document.getElementById("name");
 const Name= document.createElement("p")
+const leaderboard=document.getElementById("leadorboardDetails");
+const download1=document.getElementById("download")
 
 
 
@@ -128,29 +130,7 @@ function loadExpenseList(page) {
 
        
 
-/*pagination features which is not working now                       */
-// const previousButton = document.getElementById('previous');
-// const nextButton = document.getElementById('next');
 
-// previousButton.addEventListener('click', function () {
-//     const currentPage = parseInt(page);
-//     console.log("current page=",currentPage)
-//     if (currentPage > 1) {
-//         loadExpenseList(currentPage - 1);
-//     }
-//     else{
-//       loadExpenseList(currentPage);
-//     }
-// });
-
-// nextButton.addEventListener('click', function () {
-//     const currentPage = parseInt(page);
-    
-//     loadExpenseList(page+ 1);
-    
-// });
-
-// Load initial expense list
 
 
 
@@ -182,20 +162,21 @@ tBody.addEventListener("click", (e) => {
 //leaderboard code
 
 async function handleLeadorboard(event){
-  const res=await axios.get("/leaderboardrd")
-  const ul=document.getElementById("leaderboard");
-  ul.innerHTML="";
-  console.log(res.data)
-  res.data.forEach((expenseDetails)=>{
-    const name=  expenseDetails.name;
-  const totalExpense= expenseDetails.totalspend
-  const li=document.createElement("li");
-  li.innerHTML=` ${name} ${totalExpense}`
-  li.style.listStyle = "none"; 
+  // const res=await axios.get("/leaderboard")
+  // const ul=document.getElementById("leaderboard");
+  // ul.innerHTML="";
+  // console.log(res.data)
+  // res.data.forEach((expenseDetails)=>{
+  //   const name=  expenseDetails.name;
+  // const totalExpense= expenseDetails.totalspend
+  // const li=document.createElement("li");
+  // li.innerHTML=` ${name} ${totalExpense}`
+  // li.style.listStyle = "none"; 
  
-  ul.appendChild(li)
+  // ul.appendChild(li)
 
-  })
+  // })
+  window.location.href="../html/leaderboard.html"
  
   
 }
@@ -205,8 +186,8 @@ async function handleLeadorboard(event){
 // payment gateway related code
 
 async function handleOnClick(event){
-    console.log("click")
-    //const token = localStorage.getItem("token");
+   
+
   const res = await axios.get(
     "/purchase/premiumMembership",
     { headers: { Authorization: token } }
@@ -277,8 +258,9 @@ function premiumUser(){
     document.getElementById("message").innerHTML="You are a premium user"
   }
    else{
-    const leaderboard=document.getElementById("leadorboardDetails");
+  
     leaderboard.style.visibility="hidden";
+    download1.style.visibility="hidden";
    }
 
 
@@ -296,7 +278,7 @@ window.addEventListener("DOMContentLoaded",()=>{
 
 /*added Download functionality                      */
 
-async function download(){
+async function download(event){
   try{
       const response= await axios.get('/user/download', { headers: {"Authorization" : token} })
   

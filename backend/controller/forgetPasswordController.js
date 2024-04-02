@@ -16,9 +16,9 @@ module.exports.forgetPassword = async (req,res,next)=>{
     try{
     const email=req.body.email;
     requestId = uuidv4();
-    console.log(">>>>>>>>>>>>>>>>",email,requestId)
+    
     const  recepientEmail= await Signup.findOne({where:{email:email}})
-    console.log(">>>>>>>>>>>>>>>>", recepientEmail)
+  
     if(!recepientEmail){
         return res
         .status(404)
